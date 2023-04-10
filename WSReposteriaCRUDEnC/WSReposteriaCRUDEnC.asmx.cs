@@ -160,7 +160,71 @@ namespace WSReposteriaCRUDEnC
             
         }
 
+        [WebMethod]
+        public string InsertVenta(DateTime fecha, DateTime hora, String descripcion, float total, int idProducto)
+        {
+            try
+            {
+                string sql;
+                SqlDataReader reader;
+                SqlConnection conexion = new SqlConnection(Get_ConnectionString());
+                conexion.Open();
+                sql = "INSERT INTO [dbo].[venta] ([fecha],[hora],[descripcion],[total], [idProducto]) VALUES ('" + fecha.ToString("yyyy-MM-dd") + "','" + hora.ToString("hh\\:mm\\:ss") + "','" + descripcion + "'," + total + "," + idProducto + ")";
+                SqlCommand mycmd = new SqlCommand(sql, conexion);
+                mycmd.ExecuteNonQuery();
+                conexion.Close();
+                return "Venta registrada con Éxito";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
 
+        [WebMethod]
+        public string updateVenta(DateTime fecha, DateTime hora, String descripcion, float total, int idProducto, int idventa)
+        {
+            try
+            {
+                string sql;
+                SqlDataReader reader;
+                SqlConnection conexion = new SqlConnection(Get_ConnectionString());
+                conexion.Open();
+                sql = "UPDATE [dbo].[venta] SET [fecha] ='" + fecha.ToString("yyyy-MM-dd") + "' ,[hora] = '" + hora.ToString("hh\\:mm\\:ss") + "' ,[descripcion] = '" + descripcion + "',[total] = " + total + ",[idProducto] = " + idProducto + " WHERE [idventa] =" + idventa + "";
+                SqlCommand mycmd = new SqlCommand(sql, conexion);
+                mycmd.ExecuteNonQuery();
+                conexion.Close();
+                return "Venta actualizada con éxito";
+
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+        }
+
+        [WebMethod]
+        public string deleteVenta(int idventa)
+        {
+            try
+            {
+                string sql;
+                SqlDataReader reader;
+                SqlConnection conexion = new SqlConnection(Get_ConnectionString());
+                conexion.Open();
+                sql = "DELETE FROM [dbo].[venta]" + " WHERE [idventa] =" + idventa + "";
+                SqlCommand mycmd = new SqlCommand(sql, conexion);
+                mycmd.ExecuteNonQuery();
+                conexion.Close();
+                return "Venta eliminada con éxito";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+        }
 
     }
 }
